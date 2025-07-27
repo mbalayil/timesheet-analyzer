@@ -1,2 +1,2 @@
-# Timesheet-Analyzer
+# timesheet-analyzer
 An application to analyze a timehseet CSV file for managers and leads.
