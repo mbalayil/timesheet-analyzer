@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import io
 import json
 import os
 import time
@@ -90,15 +89,13 @@ def summarize_timesheet_with_gemini(df: pd.DataFrame) -> str:
                     .get("parts", [{}])[0]
                     .get("text", "No summary found.")
                 )
-                console.print(
-                    f"Text Generated in attempt#: {attempt}", style="bold green"
-                )
+                console.print(f"Text Generated in attempt#: {attempt}", style="bold green")
                 # console.print(f"Text Generated: {generated_text}", style="bold blue")
                 return generated_text
             else:
                 return f"Error: Unexpected API response structure: {json.dumps(result, indent=2)}"
 
-        except requests.exceptions.HTTPError as http_err:
+        except requests.HTTPError as http_err:
             # Check for 503 Service Unavailable or other server errors (5xx)
             if http_err.response.status_code >= 500 and attempt < max_retries - 1:
                 print(
@@ -108,7 +105,7 @@ def summarize_timesheet_with_gemini(df: pd.DataFrame) -> str:
             else:
                 # Re-raise the error if it's not a server error or if max retries reached
                 return f"Error connecting to Gemini API after {attempt + 1} attempts: {http_err}"
-        except requests.exceptions.ConnectionError as conn_err:
+        except requests.ConnectionError as conn_err:
             # Handle network-related errors (e.g., DNS failure, refused connection)
             if attempt < max_retries - 1:
                 print(
@@ -117,7 +114,7 @@ def summarize_timesheet_with_gemini(df: pd.DataFrame) -> str:
                 time.sleep(retry_delay_seconds)
             else:
                 return f"Error connecting to Gemini API after {attempt + 1} attempts: {conn_err}"
-        except requests.exceptions.Timeout as timeout_err:
+        except requests.Timeout as timeout_err:
             # Handle request timeouts
             if attempt < max_retries - 1:
                 print(

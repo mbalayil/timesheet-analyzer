@@ -10,3 +10,13 @@ dependencies = [
     "rich>=14.1.0",
     "streamlit==1.46.1",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12.5",
+    "ty>=0.0.1a16",
+]
+
+[tool.ruff]
+# Set as desired, typically 88 (black standard) or 100 (wide).
+line-length = 100

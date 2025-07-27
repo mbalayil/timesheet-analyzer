@@ -3,7 +3,6 @@
 import json
 
 import pandas as pd
-import plotly.express as px
 import streamlit as st
 from rich.console import Console
 
@@ -23,7 +22,6 @@ def summarize(df):
         str: Relevant columns in the table, column representing time spent and
         the
     """
-    columns = []
     try:
         # Call the summarization function with the DataFrame
         r = summarize_timesheet_with_gemini(df)
@@ -58,9 +56,7 @@ def extract_data_from_gemini_response(response_data):
         # console.print(response_data)
         # print("*"*100)
         result = json.loads(
-            response_data[
-                response_data.find("{") : response_data.rfind("}") + 1
-            ].strip()
+            response_data[response_data.find("{") : response_data.rfind("}") + 1].strip()
         )
         columns = result["Columns"]
         console.print(f"Columns identified: {columns}", style="bold blue")
@@ -86,7 +82,7 @@ def main():
     st.title("Timesheet Analysis")
     # Use a placeholder or initial message
     st.info("Please upload your timesheet CSV file to begin.")
-    console.print(f"Title Displayed", style="bold green")
+    console.print("Title Displayed", style="bold green")
 
     # Initialize session state variables if they don't exist
     if "df" not in st.session_state:
@@ -102,10 +98,8 @@ def main():
     if "summary_text" not in st.session_state:
         st.session_state.summary_text = ""
     if "show_analysis" not in st.session_state:
-        st.session_state.show_analysis = (
-            False  # Flag to control rendering of analysis sections
-        )
-    console.print(f"Session Initiated", style="bold green")
+        st.session_state.show_analysis = False  # Flag to control rendering of analysis sections
+    console.print("Session Initiated", style="bold green")
 
     # Upload File
     uploaded_file = st.file_uploader("Upload your timesheet", type="csv")
@@ -160,13 +154,9 @@ def main():
                 st.session_state.time_column = time_column
                 st.session_state.date_column = date_column
                 st.session_state.summary_text = summary
-                st.session_state.show_analysis = (
-                    True  # Now we can show analysis sections
-                )
+                st.session_state.show_analysis = True  # Now we can show analysis sections
 
-        if (
-            st.session_state.columns_from_gemini
-        ):  # If columns are identified from the file
+        if st.session_state.columns_from_gemini:  # If columns are identified from the file
             # Identify if the file can be processed based on the column names returned from Gemini and the current header row
             columns_df = df.columns.tolist()
             columns = st.session_state.columns_from_gemini
@@ -195,9 +185,7 @@ def main():
                 selected_value = st.selectbox("select_value", unique_values)
                 filtered_df = df[df[selected_column] == selected_value]
                 st.write(filtered_df)
-                console.print(
-                    f"{selected_value} filter applied successfully", style="bold green"
-                )
+                console.print(f"{selected_value} filter applied successfully", style="bold green")
 
                 # Calculate time taken for the selected activities
                 if st.session_state.time_column != "":
@@ -205,10 +193,10 @@ def main():
                     time = filtered_df[time_column].sum()
                     total_time = df[time_column].sum()
                     percentage = round((time / total_time) * 100)
-                    percenatge_string = str(percentage) + "%"
+                    percentage_string = str(percentage) + "%"
                     date_column = st.session_state.date_column
                     st.metric(label="Time spent(In hours)", value=time)
-                    st.metric(label="Time spent(In percentage)", value=percentage)
+                    st.metric(label="Time spent(In percentage)", value=percentage_string)
 
                     # Plot the time taken for the selected activities
                     st.subheader("Plot Data")
@@ -218,10 +206,12 @@ def main():
                         st.bar_chart(filtered_df.set_index(x_column)[y_column])
                     console.print("Generated plot", style="bold green")
                     print("*" * 100)
+
+        data_available = True
         try:
-            if st.session_state.df == None:
+            if st.session_state.df is None:
                 data_available = False
-        except:
+        except Exception:
             data_available = True
 
         if (st.session_state.summary_text == "") and data_available:
