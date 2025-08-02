@@ -59,8 +59,8 @@ uv run streamlit run main.py
 timesheet-analyzer/
 ├── main.py             # Main application entry point
 ├── dashboard_helper.py # Dashboard functionality helper
-├── samples/           # Sample timesheet data
-├── .venv/            # Virtual environment
-├── pyproject.toml    # Project configuration
-└── README.md         # This file
+├── samples/            # Sample timesheet data
+├── .venv/              # Virtual environment
+├── pyproject.toml      # Project configuration
+└── README.md           # This file
 ```
