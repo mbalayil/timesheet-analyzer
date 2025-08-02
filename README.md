@@ -31,7 +31,7 @@ export GEMINI_API_KEY="your_api_key_here"
 
 Make sure to replace `your_api_key_here` with your actual Gemini API key.
 
-2. Use the Makefile to set up and run the project:
+3. Use the Makefile to set up and run the project:
 ```bash
 # Setup and run everything
 make all
