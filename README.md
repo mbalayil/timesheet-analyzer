@@ -1,15 +1,19 @@
-# Timesheet Analyzer
+# 📊  Timesheet Analyzer
 
 A powerful tool designed to help managers and team leads analyze timesheet data efficiently. This application provides comprehensive insights into team productivity and time allocation through an intuitive dashboard interface.
 
-## Features
+![Python](https://img.shields.io/badge/python-3.11+-blue.svg)
+![Streamlit](https://img.shields.io/badge/streamlit-web_interface-orange.svg)
+![UV](https://img.shields.io/badge/uv-package_manager-green.svg)
+
+## ✨ Features
 
 - Import and analyze timesheet CSV files
 - Generate detailed productivity reports
 - Visualize time allocation across different projects
 - Track individual and team performance metrics
 
-## Project Setup
+## 🛠️ Project Setup
 
 ### Prerequisites
 
@@ -42,7 +46,7 @@ make install  # Install project dependencies
 make run      # Run the application
 ```
 
-## Usage
+## 📖 Usage
 
 The application will open a web-based dashboard where you can:
 1. Upload timesheet CSV files
